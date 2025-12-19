@@ -1,0 +1,55 @@
+name: AI Blog Güncelleyici
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Her gün saat 02:00 UTC
+  workflow_dispatch:     # Manuel tetikleme için
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python Kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: AI Botu Çalıştır
+        run: |
+          python ai-bot/update-blog.py
+
+      - name: Değişiklikleri yayımla
+        run: |
+          git config --global user.name 'AIByte Bot'
+          git config --global user.email 'bot@aibyte.tech'
+          git add veriler/bloglar.json
+          git commit -m "🤖 AI ile otomatik blog güncellemesi" || echo "Değişiklik yok"
+          git pushname: AI Blog Güncelleyici
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Her gün saat 02:00 UTC
+  workflow_dispatch:     # Manuel tetikleme için
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python Kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: AI Botu Çalıştır
+        run: |
+          python ai-bot/update-blog.py
+
+      - name: Değişiklikleri yayımla
+        run: |
+          git config --global user.name 'AIByte Bot'
+          git config --global user.email 'bot@aibyte.tech'
+          git add veriler/bloglar.json
+          git commit -m "🤖 AI ile otomatik blog güncellemesi" || echo "Değişiklik yok"
+          git push

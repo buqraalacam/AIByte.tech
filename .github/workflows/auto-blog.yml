@@ -1,0 +1,30 @@
+name: 🤖 AI Otomatik Blog Güncelleyici
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Her gün saat 02:00 UTC (Türkiye saatiyle 05:00)
+  workflow_dispatch:     # Manuel tetikleme butonu için
+
+jobs:
+  update-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Depoyu İndir
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python Kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: ▶️ AI Blog Botunu Çalıştır
+        run: |
+          python ai-bot/ai_blog_generator.py
+
+      - name: 📤 Değişiklikleri yayımla
+        run: |
+          git config --global user.name 'AIByte Bot'
+          git config --global user.email 'bot@aibyte.tech'
+          git add veriler/bloglar.json
+          git diff --quiet && echo "Değişiklik yok" || git commit -m "🤖 [AI] Yeni blog yazısı eklendi"
+          git push
